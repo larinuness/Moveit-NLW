@@ -24,7 +24,7 @@
     transition: width 0.4s;
   }
   
-  .experienceBar span.currentExperience {
+  span.currentExperience {
     position: absolute;
     top: 12px;
     transform: translateX(-50%);
