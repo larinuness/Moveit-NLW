@@ -1,16 +1,23 @@
 import { normalizeConfig } from 'next/dist/next-server/server/config'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import styles from '../styles/components/CountDown.module.css'
+import {ChallengesContext} from '../contexts/ChallengeContext'
 
 
 // Ajuda a parar no momento exato do contador, senão o setTimeout normal tem delay de 1seg
 let countdownTimeout: NodeJS.Timeout
 
 export function CountDown() {
+    
+    //Importando o context Api para um componente (fazer ligações entre eles)
+    const {startNewChallenge} = useContext(ChallengesContext)
+
     const [time, setTime] = useState(0.1 * 60)
     const [isActive, setIsActive] = useState(false)
     const [hasFinished, setHasFinished] = useState(false)
 
+
+    //A função Math. floor(x) retorna o menor número inteiro dentre o número "x".
     const minutes = Math.floor(time / 60);
     const seconds = time % 60
 
@@ -47,6 +54,7 @@ export function CountDown() {
         } else if (isActive && time == 0) {
             setHasFinished(true)
             setIsActive(false)
+            startNewChallenge()
 
         }
 
