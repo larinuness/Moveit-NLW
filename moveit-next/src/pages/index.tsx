@@ -6,6 +6,7 @@ import { Profile } from "../components/Profile";
 import styles from '../styles/pages/Home.module.css'
 import Head from 'next/head'
 import { ChallengeBox } from "../components/ChallengeBox";
+import { CountDownProvider } from "../contexts/CountDownContext";
 
 
 
@@ -17,6 +18,7 @@ export default function Home() {
         <title>Inicio | Moveit</title>
       </Head>
     <ExperienceBar />
+    <CountDownProvider>
     <section>
       <div>
         <Profile/>
@@ -27,6 +29,7 @@ export default function Home() {
         <ChallengeBox/>
       </div>
     </section>
+    </CountDownProvider>
   </div>
   )
 }
