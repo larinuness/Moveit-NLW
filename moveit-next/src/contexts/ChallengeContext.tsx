@@ -60,7 +60,7 @@ export function ChallengesProvider({children}: ChallengesProviderProps){
         const challenge = challenges[randomChallengeIndex]
         setActiveChallenge(challenge)
 
-        new Audio('/notification.mp3').play()
+        new Audio('/notification.mp3').play
         //Fazer aparecer noficações no browser
         if(Notification.permission === 'granted') {
             new Notification('Novo desafio', {
