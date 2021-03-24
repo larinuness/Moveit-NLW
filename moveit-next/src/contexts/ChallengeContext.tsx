@@ -1,5 +1,7 @@
-import {createContext, useState, ReactNode, Children, useEffect} from 'react'
+import {createContext, useState, ReactNode, useEffect} from 'react'
+import Cookies from 'js-cookie'
 import challenges from '../../challenges.json'
+
 
 
 //Definir o dados que tem em challenge
@@ -50,6 +52,12 @@ export function ChallengesProvider({children}: ChallengesProviderProps){
 
     }, [])
 
+    useEffect(()=> {
+        Cookies.set('level', String(level))
+        Cookies.set('currentExperience', String(currentExperience))
+        Cookies.set('challengesCompleted', String(challengesCompleted))
+    }, [level, currentExperience,challengesCompleted]) //Array de dependencia 
+
     function levelUp(){
         setLevel(level + 1)
     }
@@ -60,6 +68,8 @@ export function ChallengesProvider({children}: ChallengesProviderProps){
         const challenge = challenges[randomChallengeIndex]
         setActiveChallenge(challenge)
 
+
+        //Audio toca quando aperece novo desafio
         new Audio('/notification.mp3').play
         //Fazer aparecer noficações no browser
         if(Notification.permission === 'granted') {
