@@ -25,7 +25,7 @@ export function CountDownProvider({children}: CountDownProviderProps) {
     //Importando o context Api para um componente (fazer ligações entre eles)
     const {startNewChallenge} = useContext(ChallengesContext)
 
-    const [time, setTime] = useState(0.1 * 60)
+    const [time, setTime] = useState(25 * 60)
     const [isActive, setIsActive] = useState(false)
     const [hasFinished, setHasFinished] = useState(false)
 
@@ -45,7 +45,7 @@ export function CountDownProvider({children}: CountDownProviderProps) {
         clearTimeout(countdownTimeout)
         setIsActive(false)
         //Reseta para 25 de novo
-        setTime(0.1 * 60)
+        setTime(25 * 60)
         setHasFinished(false)
     }
 

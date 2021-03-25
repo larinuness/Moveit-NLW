@@ -1,6 +1,7 @@
 import {createContext, useState, ReactNode, useEffect} from 'react'
 import Cookies from 'js-cookie'
 import challenges from '../../challenges.json'
+import { LevelUpModal } from '../components/LevelUpModal'
 
 
 
@@ -23,6 +24,7 @@ interface ChallengesContextData {
     experienceToNextLevel: number,
     resetChallenge:() => void,
     completeChallenge: () => void
+    closeLevelUpModal: () => void
 
 }
 
@@ -30,15 +32,19 @@ interface ChallengesContextData {
 // Definir tipo para o childre através de interface
 interface ChallengesProviderProps {
     children: ReactNode;
+    level: number;
+    currentExperience: number;
+    challengesCompleted: number;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData)
 
-export function ChallengesProvider({children}: ChallengesProviderProps){
-    const [level, setLevel] = useState(1)
-    const [currentExperience, setCurrentExperience] = useState(0)
-    const [challengesCompleted, setChallengesCompleted] = useState (0)
-    const [ activeChallenge, setActiveChallenge] = useState(null)
+export function ChallengesProvider({children, ...rest}: ChallengesProviderProps){
+    const [level, setLevel] = useState(rest.level ?? 1)
+    const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0)
+    const [challengesCompleted, setChallengesCompleted] = useState (rest.challengesCompleted ?? 0)
+    const [activeChallenge, setActiveChallenge] = useState(null)
+    const [isLevelModalUp, setIsLevelModalUp] = useState(false)
 
     //Calculo de potência para subir o nivel de experiencia do usuario
     //4 é o fator de experiencia, quanto maior 5,6,7 etc mais dificil de subir
@@ -60,6 +66,11 @@ export function ChallengesProvider({children}: ChallengesProviderProps){
 
     function levelUp(){
         setLevel(level + 1)
+        setIsLevelModalUp(true)
+    }
+
+    function closeLevelUpModal() {
+        setIsLevelModalUp(false)
     }
 
     function startNewChallenge(){
@@ -113,9 +124,11 @@ export function ChallengesProvider({children}: ChallengesProviderProps){
         activeChallenge,
         experienceToNextLevel,
         resetChallenge,
-        completeChallenge
+        completeChallenge,
+        closeLevelUpModal
         }}
     > 
+        { isLevelModalUp && <LevelUpModal/>}
           {children}
         </ChallengesContext.Provider>
     )
